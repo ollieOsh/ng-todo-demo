@@ -1,11 +1,19 @@
 "use strict";
 
-app.controller('AddTaskCtrl', function($scope) {
+app.controller('AddTaskCtrl', function($scope, DataFactory, $location) {
 
-  $scope.newTask = {};
+  $scope.task = {
+  	isCompleted: false
+  };
 
-  $scope.addTask = function () {
+  $scope.submitTask = function () {
     // stuff goes here
+    console.log("new task", $scope.task);
+    DataFactory.addTask($scope.task)
+    .then((response) => {
+    	console.log("response", response);
+    	$location.path('/');
+    });
   };
 
 });

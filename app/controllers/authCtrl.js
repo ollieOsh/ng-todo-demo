@@ -14,7 +14,7 @@ app.controller("AuthCtrl", function ($scope, $window, AuthFactory, $location) {
     AuthFactory.logoutUser()
       .then(function (data) {
         console.log("logged out?", data);
-        $window.location.url = "#!/login";
+        $location.path = "#!/login";
       }, function (error) {
         console.log("error occured on logout");
       });
@@ -47,7 +47,7 @@ app.controller("AuthCtrl", function ($scope, $window, AuthFactory, $location) {
         // $scope.isLoggedIn = true;
         // console.log("UserCtrl: user is loggedIn", $scope.isLoggedIn );
         // $scope.$apply();
-        $window.location.href = "#!/items/list";
+        $location.path = "#!/items/list";
       });
   };
 
@@ -58,7 +58,7 @@ app.controller("AuthCtrl", function ($scope, $window, AuthFactory, $location) {
         var user = result.user.uid;
         console.log("logged in user:", user);
         //Once logged in, go to another view
-        $location.path("/items/list");
+        $location.path("/");
         $scope.$apply();
       }).catch(function (error) {
         // Handle the Errors.

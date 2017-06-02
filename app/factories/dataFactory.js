@@ -2,8 +2,16 @@
 
 app.factory("DataFactory", function($q, $http, FBCreds) {
 
-  const addTask = () => {
-
+  const addTask = (newObj) => {
+    return $q((resolve, reject) => {
+      $http.post(`${FBCreds.databaseURL}/items.json`, JSON.stringify(newObj))
+      .then((itemId) => {
+        resolve(itemId);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+    });
   };
 
   const editTask = (taskId, editedObject) => {
@@ -35,12 +43,14 @@ app.factory("DataFactory", function($q, $http, FBCreds) {
     return $q((resolve, reject) => {
       $http.get(`${FBCreds.databaseURL}/items.json`)
       .then((itemObject) => {
-      let itemCollection = itemObject.data;
-      console.log("itemCollection", itemCollection);
-      Object.keys(itemCollection).forEach((key) => {
-        itemCollection[key].id = key;
-        tasks.push(itemCollection[key]);
-      });
+        if(itemObject.data){
+          let itemCollection = itemObject.data;
+          console.log("itemCollection", itemCollection);
+          Object.keys(itemCollection).forEach((key) => {
+            itemCollection[key].id = key;
+            tasks.push(itemCollection[key]);
+          });
+        }
       resolve(tasks);
     })
     .catch((error) => {
@@ -49,8 +59,16 @@ app.factory("DataFactory", function($q, $http, FBCreds) {
   });
 };
 
-  const removeTask = () => {
-
+  const removeTask = (taskId) => {
+    return $q((resolve, reject) => {
+      $http.delete(`${FBCreds.databaseURL}/items/${taskId}.json`)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+    });
   };
 
   return {

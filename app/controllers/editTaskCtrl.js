@@ -2,25 +2,19 @@
 
 app.controller('EditTaskCtrl', function($scope, DataFactory, $routeParams, $location) {
 
-  $scope.editedTask = {
-  	assignedTo: "",
-  	dependencies: "",
-  	dueDate: "",
-  	urgency: "",
-  	description: ""
-  };
+  $scope.task = {};
 
 	DataFactory.getTask($routeParams.taskId)
 	.then(function(item){
 		console.log("this is the task:", item);
-		$scope.editedTask = item;
-		$scope.editedTask.id = $routeParams.taskId;
+		$scope.task = item;
+		$scope.task.id = $routeParams.taskId;
 	});
-  $scope.editTask = function() {
+  $scope.submitTask = function() {
     // stuff goes here
-    console.log("edited task object", $scope.editedTask);
+    console.log("edited task object", $scope.task);
 
-    DataFactory.editTask($scope.editedTask.id, $scope.editedTask)
+    DataFactory.editTask($scope.task.id, $scope.task)
     .then((response) => {
     	console.log("response", response);
     	console.log("location", $location);
