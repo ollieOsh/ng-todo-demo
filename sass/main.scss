@@ -10,6 +10,14 @@ h1, h2 {
   border: 2px dashed red;
 }
 
+.container--auth {
+  background-color: white;
+  padding: 20px;
+  margin-top: 40px;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+}
+
 .search-bar-spacing {
   margin-bottom: 20px;
 }
@@ -25,3 +33,4 @@ h1, h2 {
   padding: 20px;
   border-radius: 10px;
 }
+
