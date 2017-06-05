@@ -1,14 +1,10 @@
 <div class="container">
   <h1>Todo List</h1>
-  <div class="input-group col-xs-6 col-xs-offset-3">
-    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></span>
-    <input type="text" class="form-control" placeholder="Search" aria-describedby="basic-addon1">
-  </div>
   <h1 class="text-left">In Progress</h1>
-  <div ng-repeat="task in tasks">
+  <div ng-repeat="task in tasks | filter: searchText.search | filter: false:isCompleted">
     <div class="panel panel-default">
       <div class="panel-body">
-        <div class="col-xs-1"><input type="checkbox" name="" /></div>
+        <div class="col-xs-1"><input type="checkbox" name="" ng-model="task.isCompleted" ng-change="updateComplete(task.id, task.isCompleted)"/></div>
         <div class="col-xs-7"><a ng-href="#!/items/{{task.id}}">{{task.task}}</a></div>
         <div class="col-xs-2">{{task.dueDate}}</div>
         <div class="col-xs-1">{{task.assignedTo}}</div>
@@ -17,4 +13,15 @@
     </div>
   </div>
   <h1 class="text-left">Completed</h1>
+  <div ng-repeat="task in tasks | filter: searchText.search | filter: true:isCompleted">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="col-xs-1"><input type="checkbox" name="" ng-model="task.isCompleted" ng-change="updateComplete(task.id, task.isCompleted)" checked/></div>
+        <div class="col-xs-7"><a ng-href="#!/items/{{task.id}}">{{task.task}}</a></div>
+        <div class="col-xs-2">{{task.dueDate}}</div>
+        <div class="col-xs-1">{{task.assignedTo}}</div>
+        <div class="col-xs-1"><button class="btn btn-danger" ng-click="removeTask(task.id)">X</button></div>
+      </div>
+    </div>
+  </div>
 </div>
