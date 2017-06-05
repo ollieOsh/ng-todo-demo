@@ -1,6 +1,8 @@
 "use strict";
 
-app.factory("DataFactory", function($q, $http, FBCreds) {
+app.factory("DataFactory", function($q, $http, FBCreds, AuthFactory) {
+
+  let user = AuthFactory.getUser();
 
   const addTask = (newObj) => {
     return $q((resolve, reject) => {
@@ -15,6 +17,7 @@ app.factory("DataFactory", function($q, $http, FBCreds) {
   };
 
   const editTask = (taskId, editedObject) => {
+    console.log('editing', editedObject);
     return $q((resolve, reject) => {
       $http.patch(`${FBCreds.databaseURL}/items/${taskId}.json`, JSON.stringify(editedObject))
       .then(function(itemObject){
@@ -39,9 +42,10 @@ app.factory("DataFactory", function($q, $http, FBCreds) {
   };
 
   const getTaskList = () => {
+    console.log("myURL", `${FBCreds.databaseURL}/items.json?orderBy="uid"&equalTo="${user}"`);
     let tasks = [];
     return $q((resolve, reject) => {
-      $http.get(`${FBCreds.databaseURL}/items.json`)
+      $http.get(`${FBCreds.databaseURL}/items.json?orderBy="uid"&equalTo="${user}"`)
       .then((itemObject) => {
         if(itemObject.data){
           let itemCollection = itemObject.data;

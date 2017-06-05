@@ -9,12 +9,13 @@ app.controller("AuthCtrl", function ($scope, $window, AuthFactory, $location) {
     password: ""
   };
 
+// $window.location does complete page refresh
   let logout = () => {
     console.log("logout clicked");
     AuthFactory.logoutUser()
       .then(function (data) {
         console.log("logged out?", data);
-        $location.path = "#!/login";
+        $window.location.url = "#!/login";
       }, function (error) {
         console.log("error occured on logout");
       });
@@ -47,7 +48,7 @@ app.controller("AuthCtrl", function ($scope, $window, AuthFactory, $location) {
         // $scope.isLoggedIn = true;
         // console.log("UserCtrl: user is loggedIn", $scope.isLoggedIn );
         // $scope.$apply();
-        $location.path = "#!/items/list";
+        $window.location.href = "#!/task-list";
       });
   };
 
@@ -58,7 +59,7 @@ app.controller("AuthCtrl", function ($scope, $window, AuthFactory, $location) {
         var user = result.user.uid;
         console.log("logged in user:", user);
         //Once logged in, go to another view
-        $location.path("/");
+        $location.path("/task-list");
         $scope.$apply();
       }).catch(function (error) {
         // Handle the Errors.

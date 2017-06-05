@@ -1,9 +1,18 @@
 "use strict";
 
-app.controller('AddTaskCtrl', function($scope, DataFactory, $location) {
+app.controller('AddTaskCtrl', function($scope, DataFactory, $location, AuthFactory) {
+
+  let user = AuthFactory.getUser();
 
   $scope.task = {
-  	isCompleted: false
+    assignedTo: "",
+    dependencies: "",
+    dueDate: "",
+  	isCompleted: false,
+    location: "",
+    task: "",
+    urgency: "",
+    uid: user
   };
 
   $scope.submitTask = function () {
@@ -12,7 +21,7 @@ app.controller('AddTaskCtrl', function($scope, DataFactory, $location) {
     DataFactory.addTask($scope.task)
     .then((response) => {
     	console.log("response", response);
-    	$location.path('/');
+    	$location.path('/task-list');
     });
   };
 

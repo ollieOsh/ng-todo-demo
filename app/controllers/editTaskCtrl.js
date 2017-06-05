@@ -1,8 +1,19 @@
 "use strict";
 
-app.controller('EditTaskCtrl', function($scope, DataFactory, $routeParams, $location) {
+app.controller('EditTaskCtrl', function($scope, DataFactory, $routeParams, $location, AuthFactory) {
 
-  $scope.task = {};
+  let user = AuthFactory.getUser();
+
+  $scope.task = {
+    assignedTo: "",
+    dependencies: "",
+    dueDate: "",
+    isCompleted: false,
+    location: "",
+    task: "",
+    urgency: "",
+    uid: user
+  };
 
 	DataFactory.getTask($routeParams.taskId)
 	.then(function(item){
@@ -18,7 +29,7 @@ app.controller('EditTaskCtrl', function($scope, DataFactory, $routeParams, $loca
     .then((response) => {
     	console.log("response", response);
     	console.log("location", $location);
-    	$location.path('/');
+    	$location.path('/task-list');
     });
   };
 

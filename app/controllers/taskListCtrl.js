@@ -1,6 +1,15 @@
 "use strict";
 
-app.controller('TaskListCtrl', function($scope, DataFactory, $location) {
+app.controller('TaskListCtrl', function($scope, DataFactory, $location, AuthFactory, SearchTermData) {
+
+$scope.searchText = SearchTermData;
+let user = AuthFactory.getUser();
+
+if(user === null) {
+  console.log("AIN'T NO USER");
+  $location.path('/');
+}
+
   $scope.getTaskList = function () {
     // get the task list
     DataFactory.getTaskList()
@@ -14,6 +23,14 @@ app.controller('TaskListCtrl', function($scope, DataFactory, $location) {
     DataFactory.removeTask(taskId)
     .then(() => {
     	$scope.getTaskList();
+    });
+  };
+
+  $scope.updateComplete = function (taskId, complete) {
+    console.log('complete', complete);
+    DataFactory.editTask(taskId, {isCompleted: complete})
+    .then(() => {
+      $scope.getTaskList();
     });
   };
 
